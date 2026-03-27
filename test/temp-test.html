@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EventFlow Auto Test</title>
+<meta charset="UTF-8">
+</head>
+<body>
+<h1 style="font-family:Arial;color:#d4a574">Creating Test Event...</h1>
+<div id="status" style="font-family:Arial;color:#888;margin-top:20px">Initializing...</div>
+<script>
+// Generate unique IDs
+var eventId = 'EVT' + Date.now().toString(36).toUpperCase();
+var orgId = 'ORG' + Date.now().toString(36).toUpperCase();
+
+// Calculate dates
+var eventDate = new Date();
+eventDate.setDate(eventDate.getDate() + 14);
+var deadline = new Date();
+deadline.setDate(deadline.getDate() + 12);
+
+// Create event object
+var event = {
+  id: eventId,
+  name: 'Tech Conference 2026',
+  description: 'Amazing tech event with great speakers and networking opportunities.',
+  date: eventDate.toISOString().slice(0, 16),
+  deadline: deadline.toISOString().slice(0, 16),
+  location: 'Mumbai Convention Center, India',
+  capacity: '100',
+  category: 'Conference',
+  pricing: 'paid',
+  price: '499',
+  contact: 'test@eventflow.com',
+  banner: '',
+  organizerId: orgId,
+  createdAt: new Date().toISOString()
+};
+
+// Save to localStorage
+localStorage.setItem('ef_events', JSON.stringify([event]));
+localStorage.setItem('ef_organizer_id', orgId);
+
+// Update status
+document.getElementById('status').innerHTML =
+  '<p style="color:#4ade80"><strong>Event Created Successfully!</strong></p>' +
+  '<p><strong>Name:</strong> Tech Conference 2026</p>' +
+  '<p><strong>ID:</strong> ' + eventId + '</p>' +
+  '<p><strong>Date:</strong> 14 days from today</p>' +
+  '<p><strong>Location:</strong> Mumbai Convention Center</p>' +
+  '<p><strong>Price:</strong> Rs. 499</p>' +
+  '<p style="color:#d4a574">Opening event page in 2 seconds...</p>';
+
+// Redirect to event page
+setTimeout(function() {
+  window.location.href = '../index.html#event/' + eventId;
+}, 2000);
+</script>
+</body>
+</html>

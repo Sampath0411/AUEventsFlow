@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AU Events - University Event Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-dim": "#4f4f4f",
+              "secondary-container": "#9bd9ff",
+              "on-tertiary-fixed": "#505050",
+              "on-background": "#2c2f30",
+              "surface-container": "#e6e8ea",
+              "surface-variant": "#dadddf",
+              "on-tertiary": "#f3f3f3",
+              "on-secondary": "#e7f4ff",
+              "primary-container": "#BEF05D",
+              "error": "#b02500",
+              "background": "#f5f6f7",
+              "secondary-dim": "#005676",
+              "on-primary-fixed-variant": "#4b6a00",
+              "on-surface-variant": "#595c5d",
+              "on-secondary-fixed": "#00394f",
+              "tertiary-fixed-dim": "#f1f1f1",
+              "primary-fixed-dim": "#bbed5b",
+              "inverse-surface": "#1a1c1d",
+              "error-container": "#f95630",
+              "surface": "#f5f6f7",
+              "secondary-fixed-dim": "#74ceff",
+              "tertiary": "#5b5b5b",
+              "inverse-primary": "#ccff6a",
+              "surface-bright": "#f5f6f7",
+              "primary-fixed": "#BEF05D",
+              "primary-dim": "#3d5800",
+              "on-surface": "#1a1c1d",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-container": "#004d6a",
+              "surface-container-high": "#e0e3e4",
+              "surface-container-highest": "#dadddf",
+              "primary": "#476500",
+              "on-tertiary-fixed-variant": "#6d6d6d",
+              "surface-dim": "#d1d5d7",
+              "on-error-container": "#520c00",
+              "on-error": "#ffefec",
+              "surface-container-low": "#eff1f2",
+              "secondary": "#006286",
+              "tertiary-fixed": "#ffffff",
+              "secondary-fixed": "#9bd9ff",
+              "error-dim": "#b92902",
+              "tertiary-container": "#ffffff",
+              "on-primary-fixed": "#344c00",
+              "on-secondary-fixed-variant": "#005777",
+              "on-primary": "#000000",
+              "outline-variant": "#abadae",
+              "inverse-on-surface": "#9b9d9e",
+              "outline": "#757778",
+              "on-tertiary-container": "#626262",
+              "surface-tint": "#476500",
+              "on-primary-container": "#2a3d00"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .text-editorial-tight { letter-spacing: -0.04em; }
+
+        /* Enhanced Background Styles */
+        .bg-vibrant-mesh {
+            background-color: #f8fafc;
+            background-image:
+                radial-gradient(at 10% 10%, rgba(190, 240, 93, 0.25) 0px, transparent 40%),
+                radial-gradient(at 90% 10%, rgba(26, 28, 29, 0.08) 0px, transparent 40%),
+                radial-gradient(at 50% 50%, rgba(190, 240, 93, 0.1) 0px, transparent 50%),
+                radial-gradient(at 10% 90%, rgba(190, 240, 93, 0.15) 0px, transparent 40%),
+                radial-gradient(at 90% 90%, rgba(26, 28, 29, 0.12) 0px, transparent 40%);
+        }
+
+        .bg-grid {
+            background-image: radial-gradient(#1a1c1d 0.5px, transparent 0.5px);
+            background-size: 32px 32px;
+        }
+
+        .bg-noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.02;
+            pointer-events: none;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05);
+        }
+
+        .glass-card-dark {
+            background: rgba(26, 28, 29, 0.85);
+            backdrop-filter: blur(16px) saturate(140%);
+            -webkit-backdrop-filter: blur(16px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Page handling */
+        .page { display: none; }
+        .page.active { display: block; }
+
+        /* Modal handling */
+        .modal-overlay { display: none; }
+        .modal-overlay.open { display: flex; }
+
+        /* Toast container */
+        .toast-container {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .toast {
+            background: white;
+            border: 1px solid #dadddf;
+            border-radius: 12px;
+            padding: 12px 18px;
+            min-width: 280px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .toast.success { border-left: 4px solid #476500; }
+        .toast.error { border-left: 4px solid #b02500; }
+
+        /* Form inputs */
+        .form-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px !important;
+            color: #1a1c1d;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .form-input:focus {
+            border-color: #476500;
+            box-shadow: 0 0 0 4px rgba(71, 101, 0, 0.1), inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        select.form-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 20px;
+            padding-right: 48px;
+        }
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* QR code container */
+        #qrcode img {
+            margin: 0 auto;
+        }
+
+        /* Event cards */
+        .event-card {
+            transition: all 0.3s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-4px);
+        }
+
+
+        /* Detail View Info Boxes - Extra rounded */
+        .info-box {
+            border-radius: 1.5rem !important;
+        }
+
+        /* Glass card extra rounded */
+        .glass-card, .glass-card-dark {
+            border-radius: 1.5rem !important;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Floating Cards Animation */
+        @keyframes floatCard1 {
+            0%, 100% {
+                transform: translateY(0) rotate(-3deg) translateX(0);
+            }
+            25% {
+                transform: translateY(-15px) rotate(-1deg) translateX(5px);
+            }
+            50% {
+                transform: translateY(-8px) rotate(-4deg) translateX(-3px);
+            }
+            75% {
+                transform: translateY(-20px) rotate(-2deg) translateX(2px);
+            }
+        }
+
+        @keyframes floatCard2 {
+            0%, 100% {
+                transform: translateY(0) rotate(12deg) translateX(0);
+            }
+            33% {
+                transform: translateY(-20px) rotate(15deg) translateX(-8px);
+            }
+            66% {
+                transform: translateY(-10px) rotate(10deg) translateX(5px);
+            }
+        }
+
+        @keyframes floatCard3 {
+            0%, 100% {
+                transform: translateY(0) rotate(2deg) translateX(0);
+            }
+            50% {
+                transform: translateY(-12px) rotate(0deg) translateX(-5px);
+            }
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(100px) scale(0.8) rotate(-10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(var(--rotation, 0deg));
+            }
+        }
+
+        .hero-float-card {
+            opacity: 0;
+            animation: cardEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        #heroCard1 {
+            --rotation: -3deg;
+            animation-delay: 0.2s;
+        }
+
+        #heroCard1.animated {
+            animation: cardEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       floatCard1 6s ease-in-out infinite 0.8s;
+        }
+
+        #heroCard2 {
+            --rotation: 12deg;
+            animation-delay: 0.4s;
+        }
+
+        #heroCard2.animated {
+            animation: cardEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       floatCard2 5s ease-in-out infinite 0.8s;
+        }
+
+        #heroCard3 {
+            --rotation: 2deg;
+            animation-delay: 0.6s;
+        }
+
+        #heroCard3.animated {
+            animation: cardEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       floatCard3 7s ease-in-out infinite 0.8s;
+        }
+
+        /* Hover pause animation */
+        .hero-float-card:hover {
+            animation-play-state: paused !important;
+            transform: scale(1.05) !important;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-vibrant-mesh text-on-surface antialiased relative min-h-screen">
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Background Elements -->
+<div class="fixed inset-0 bg-grid opacity-[0.03] -z-20"></div>
+<div class="fixed inset-0 bg-noise -z-20"></div>
+<!-- Decorative Blobs -->
+<div class="fixed -z-10 top-[-20%] left-[-10%] w-[60%] aspect-square rounded-full bg-primary-container/20 blur-[120px] animate-pulse"></div>
+<div class="fixed -z-10 bottom-[-10%] right-[-5%] w-[50%] aspect-square rounded-full bg-inverse-surface/10 blur-[140px]"></div>
+<div class="fixed -z-10 top-[20%] right-[10%] w-96 h-96 bg-primary-container/5 blur-[100px]"></div>
+<!-- Decorative Strokes -->
+<div class="fixed -z-10 top-[15%] right-[20%] w-[500px] h-[500px] border-[1px] border-primary/10 rounded-full rotate-12"></div>
+<div class="fixed -z-10 bottom-[20%] left-[5%] w-[600px] h-[600px] border-[1px] border-inverse-surface/5 rounded-[4rem] -rotate-12"></div>
+
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/40 backdrop-blur-xl border-b border-white/20 shadow-sm">
+<div class="flex justify-between items-center h-20 px-6 md:px-12 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-on-surface cursor-pointer" onclick="showPage('home')">AU Events</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 cursor-pointer" onclick="showPage('home')">Home</a>
+<a class="text-on-surface/70 font-medium hover:text-on-surface transition-colors cursor-pointer" onclick="showPage('home'); setTimeout(() => document.getElementById('eventsSection').scrollIntoView({behavior: 'smooth'}), 100)">Events</a>
+<a class="text-on-surface/70 font-medium hover:text-on-surface transition-colors cursor-pointer" onclick="document.getElementById('howToRegisterSection').scrollIntoView({behavior: 'smooth'})">How to Register</a>
+<a class="text-on-surface/70 font-medium hover:text-on-surface transition-colors cursor-pointer" onclick="document.getElementById('howToRegisterSection').scrollIntoView({behavior: 'smooth'}); setTimeout(() => alert('AU Events Portal - Andhra University\n\nA campus event management system where organizers create events and students register with QR code tickets.\n\nFeatures:\n- Create and manage events\n- QR code ticket generation\n- Real-time registration tracking\n- CSV export\n\n© 2026 AU Events'), 500);">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined p-2 text-on-surface-variant hover:bg-white/40 rounded-full transition-all duration-200" onclick="toggleSearch()">search</button>
+<button class="bg-inverse-surface text-white px-6 py-2.5 rounded-full font-bold active:scale-95 transition-transform" onclick="showPage('adminLogin')" id="adminNavBtn">Sign In</button>
+<button class="bg-inverse-surface text-white px-6 py-2.5 rounded-full font-bold active:scale-95 transition-transform hidden" onclick="adminLogout()" id="logoutBtn">Logout</button>
+</div>
+</div>
+</nav>
+
+<main class="pt-20">
+<!-- ==================== HOME PAGE ==================== -->
+<div id="page-home" class="page active">
+<!-- Hero Section -->
+<section class="relative min-h-[850px] flex items-center px-6 md:px-12 max-w-screen-2xl mx-auto overflow-hidden">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
+<div class="lg:col-span-7 z-10">
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary-container/80 backdrop-blur-md text-on-primary-container font-bold text-xs tracking-widest uppercase mb-6 border border-primary/20">
+                    University Portal 2026
+                </span>
+<h1 class="text-6xl md:text-8xl font-extrabold text-on-surface leading-[0.9] text-editorial-tight mb-8">
+                    Andhra University <br/>
+<span class="text-primary">Events Flow</span>
+</h1>
+<p class="text-xl md:text-2xl text-on-surface-variant max-w-2xl leading-relaxed mb-10">
+                    AU Events Portal — A campus event management system where organizers create events and students register with QR code tickets.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary text-white h-16 px-10 rounded-xl text-lg font-extrabold flex items-center gap-3 hover:shadow-xl hover:shadow-primary/30 transition-all active:scale-95" onclick="showPage('adminLogin')">
+                        Get Started!
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="glass-card text-on-surface h-16 px-10 rounded-xl text-lg font-bold hover:bg-white/80 transition-all" onclick="document.getElementById('eventsSection').scrollIntoView({behavior: 'smooth'})">
+                        View Live Events
+                    </button>
+</div>
+</div>
+
+<!-- Floating Cards -->
+<div class="lg:col-span-5 relative h-[600px] hidden lg:block">
+<!-- Main Event Card -->
+<div class="hero-float-card absolute top-[10%] left-[10%] w-72 bg-[#1a1a2e] rounded-3xl p-5 shadow-2xl border border-white/10" id="heroCard1">
+<div class="flex items-center justify-between mb-4">
+<span class="px-3 py-1 bg-[#7ee8fa] text-[#1a1a2e] text-xs font-bold rounded-full">OPEN NOW</span>
+<span class="material-symbols-outlined text-white/60">more_horiz</span>
+</div>
+<div class="text-white/60 text-xs mb-1">Upcoming</div>
+<div class="text-white font-bold text-lg">Tech Fest</div>
+<div class="text-white font-bold text-lg mb-4">Main Stage</div>
+<div class="aspect-video bg-gradient-to-br from-[#2a2a4e] to-[#1a1a2e] rounded-xl flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-6xl text-white/20">desktop_windows</span>
+</div>
+</div>
+
+<!-- QR Code Card -->
+<div class="hero-float-card absolute top-[5%] right-[5%] w-32 h-32 bg-[#7ee8fa] rounded-3xl shadow-2xl flex items-center justify-center" id="heroCard2">
+<span class="material-symbols-outlined text-5xl text-[#1a1a2e]">qr_code_2</span>
+</div>
+
+<!-- Stats Card -->
+<div class="hero-float-card absolute bottom-[20%] right-[15%] w-48 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl border border-white/50" id="heroCard3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">groups</span>
+</div>
+<div>
+<div class="text-2xl font-bold text-on-surface">2.5k+</div>
+<div class="text-xs text-on-surface-variant">Students</div>
+</div>
+</div>
+</div>
+
+<!-- Decorative Elements -->
+<div class="absolute top-[40%] left-[5%] w-16 h-16 bg-primary/20 rounded-full blur-xl"></div>
+<div class="absolute bottom-[10%] left-[30%] w-20 h-20 bg-secondary/20 rounded-full blur-xl"></div>
+</div>
+</div>
+</section>
+
+<!-- Search Section -->
+<section id="eventsSection" class="px-6 md:px-12 py-12 max-w-screen-2xl mx-auto">
+<div class="glass-card p-6 rounded-3xl mb-8">
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input type="text" class="form-input pl-12" id="searchInput" placeholder="Search events..." oninput="renderEvents()"/>
+</div>
+<select class="form-input md:w-48" id="sortSelect" onchange="renderEvents()">
+<option value="date">Sort by Date</option>
+<option value="popular">Most Popular</option>
+</select>
+</div>
+<div class="flex flex-wrap gap-2 mt-4" id="filterChips">
+<button class="px-4 py-2 rounded-full bg-primary text-white text-sm font-semibold" onclick="setFilter('All', this)">All</button>
+</div>
+</div>
+
+<!-- Events Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="eventsGrid">
+<!-- Events will be rendered here -->
+</div>
+
+<!-- Skeleton Loading State (hidden by default) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="skeletonGrid" style="display:none">
+<div class="skeleton-card">
+<div class="skeleton-image"></div>
+<div class="p-6">
+<div class="skeleton-line skeleton-line-shorter"></div>
+<div class="skeleton-line"></div>
+<div class="skeleton-line skeleton-line-short"></div>
+</div>
+</div>
+<div class="skeleton-card">
+<div class="skeleton-image"></div>
+<div class="p-6">
+<div class="skeleton-line skeleton-line-shorter"></div>
+<div class="skeleton-line"></div>
+<div class="skeleton-line skeleton-line-short"></div>
+</div>
+</div>
+<div class="skeleton-card">
+<div class="skeleton-image"></div>
+<div class="p-6">
+<div class="skeleton-line skeleton-line-shorter"></div>
+<div class="skeleton-line"></div>
+<div class="skeleton-line skeleton-line-short"></div>
+</div>
+</div>
+<div class="skeleton-card">
+<div class="skeleton-image"></div>
+<div class="p-6">
+<div class="skeleton-line skeleton-line-shorter"></div>
+<div class="skeleton-line"></div>
+<div class="skeleton-line skeleton-line-short"></div>
+</div>
+</div>
+<div class="skeleton-card">
+<div class="skeleton-image"></div>
+<div class="p-6">
+<div class="skeleton-line skeleton-line-shorter"></div>
+<div class="skeleton-line"></div>
+<div class="skeleton-line skeleton-line-short"></div>
+</div>
+</div>
+<div class="skeleton-card">
+<div class="skeleton-image"></div>
+<div class="p-6">
+<div class="skeleton-line skeleton-line-shorter"></div>
+<div class="skeleton-line"></div>
+<div class="skeleton-line skeleton-line-short"></div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Feature Sections -->
+<section class="px-6 md:px-12 py-24 max-w-screen-2xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Card 1: Large Featured -->
+<div class="md:col-span-8 glass-card p-12 rounded-3xl group hover:bg-white/70 transition-all duration-500">
+<div class="flex flex-col h-full">
+<span class="material-symbols-outlined text-primary text-5xl mb-8" style="font-variation-settings: 'FILL' 1;">edit_calendar</span>
+<h3 class="text-4xl font-bold text-on-surface mb-6">We can create Events</h3>
+<p class="text-xl text-on-surface-variant max-w-xl leading-relaxed">
+                        Organizers are empowered with a robust dashboard to manage every minute detail. From venue mapping to attendee caps, orchestrate campus experiences with clinical precision.
+                    </p>
+<div class="mt-auto pt-12">
+<div class="flex gap-4">
+<div class="h-1.5 w-12 bg-primary rounded-full"></div>
+<div class="h-1.5 w-12 bg-on-surface/10 rounded-full"></div>
+<div class="h-1.5 w-12 bg-on-surface/10 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Engagement -->
+<div class="md:col-span-4 bg-primary text-white p-12 rounded-lg flex flex-col justify-between overflow-hidden relative shadow-lg">
+<div class="z-10">
+<h3 class="text-4xl font-black leading-tight mb-4">No registration fees!</h3>
+<p class="text-white/80 font-medium">Purely for student engagement. Zero cost, maximum impact. Focus on the experience, not the expense.</p>
+</div>
+<span class="material-symbols-outlined absolute -bottom-10 -right-10 text-[12rem] opacity-20 pointer-events-none">payments</span>
+<button class="z-10 self-start mt-12 bg-white text-primary px-6 py-3 rounded-full font-extrabold active:scale-95 transition-transform hover:shadow-lg" onclick="document.getElementById('eventsSection').scrollIntoView({behavior: 'smooth'})">Explore Free Events</button>
+</div>
+<!-- Card 3: Real-time Tracking -->
+<div class="md:col-span-4 glass-card-dark text-white p-12 rounded-3xl shadow-xl">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">dynamic_feed</span>
+<h3 class="text-2xl font-bold mb-4">Real-time Tracking</h3>
+<p class="opacity-70 leading-relaxed mb-8">Participate in daily events and manage registrations easily with live updates and instant push notifications.</p>
+<div class="bg-white/10 p-6 rounded-xl border border-white/10">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<span class="text-xs font-bold tracking-widest uppercase text-primary-container">Live Status</span>
+</div>
+<div class="space-y-3">
+<div class="h-2 bg-white/20 rounded-full w-full"></div>
+<div class="h-2 bg-white/10 rounded-full w-2/3"></div>
+</div>
+</div>
+</div>
+<!-- Card 4: QR Integration -->
+<div class="md:col-span-8 glass-card p-12 rounded-3xl flex items-center gap-12 group hover:bg-white/70 transition-all">
+<div class="flex-1">
+<h3 class="text-3xl font-bold text-on-surface mb-4">Smart QR Tickets</h3>
+<p class="text-on-surface-variant text-lg">Instant entry with encrypted QR codes generated automatically upon registration. No paper, no friction.</p>
+<a class="inline-flex items-center gap-2 text-primary font-bold mt-6 group-hover:underline underline-offset-4" href="#">
+                        Learn more about security
+                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+<div class="hidden sm:block w-48 h-48 bg-white/80 backdrop-blur-sm p-4 rounded-xl shadow-lg transform group-hover:rotate-6 transition-transform border border-white/40">
+<div class="w-full h-full bg-slate-100 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-6xl text-slate-300">qr_code_2</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- How to Register Section -->
+<section id="howToRegisterSection" class="px-6 md:px-12 py-24 max-w-screen-2xl mx-auto">
+<div class="glass-card p-12 rounded-3xl">
+<div class="text-center mb-12">
+<span class="inline-block px-4 py-1.5 rounded-full bg-primary-container/80 backdrop-blur-md text-on-primary-container font-bold text-xs tracking-widest uppercase mb-6 border border-primary/20">Simple Steps</span>
+<h2 class="text-4xl md:text-5xl font-bold text-on-surface mb-4">How to Register</h2>
+<p class="text-xl text-on-surface-variant max-w-2xl mx-auto">Follow these simple steps to register for any event and get your QR ticket</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<!-- Step 1 -->
+<div class="text-center group">
+<div class="w-20 h-20 mx-auto mb-6 bg-primary text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-lg group-hover:scale-110 transition-transform">1</div>
+<div class="w-16 h-16 mx-auto mb-4 bg-primary-container/30 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-primary">search</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2">Browse Events</h3>
+<p class="text-on-surface-variant">Explore all upcoming events and find the ones that interest you</p>
+</div>
+<!-- Step 2 -->
+<div class="text-center group">
+<div class="w-20 h-20 mx-auto mb-6 bg-primary text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-lg group-hover:scale-110 transition-transform">2</div>
+<div class="w-16 h-16 mx-auto mb-4 bg-secondary-container/30 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-secondary">touch_app</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2">Click Register</h3>
+<p class="text-on-surface-variant">Select an event and click the Register Now button</p>
+</div>
+<!-- Step 3 -->
+<div class="text-center group">
+<div class="w-20 h-20 mx-auto mb-6 bg-primary text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-lg group-hover:scale-110 transition-transform">3</div>
+<div class="w-16 h-16 mx-auto mb-4 bg-primary-container/30 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-primary">edit_note</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2">Fill Details</h3>
+<p class="text-on-surface-variant">Enter your student details including name, reg no, and department</p>
+</div>
+<!-- Step 4 -->
+<div class="text-center group">
+<div class="w-20 h-20 mx-auto mb-6 bg-primary text-white rounded-full flex items-center justify-center text-3xl font-bold shadow-lg group-hover:scale-110 transition-transform">4</div>
+<div class="w-16 h-16 mx-auto mb-4 bg-secondary-container/30 rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-secondary">qr_code_2</span>
+</div>
+<h3 class="text-xl font-bold text-on-surface mb-2">Get QR Ticket</h3>
+<p class="text-on-surface-variant">Receive your unique QR code for quick check-in at the event</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA Section -->
+<section class="px-6 md:px-12 py-24 mb-12">
+<div class="max-w-screen-2xl mx-auto glass-card-dark rounded-3xl p-12 md:p-24 text-center relative overflow-hidden shadow-2xl border border-white/10">
+<div class="absolute top-0 right-0 w-[50%] h-full bg-[radial-gradient(circle_at_top_right,rgba(190,240,93,0.15),transparent)]"></div>
+<div class="absolute bottom-0 left-0 w-[50%] h-full bg-[radial-gradient(circle_at_bottom_left,rgba(190,240,93,0.05),transparent)]"></div>
+<h2 class="text-5xl md:text-7xl font-black text-white mb-8 relative z-10 leading-none">Ready to shape <br/>the campus life?</h2>
+<div class="flex flex-wrap justify-center gap-6 relative z-10">
+<button class="bg-primary text-white h-16 px-12 rounded-xl text-lg font-bold hover:scale-105 transition-transform hover:shadow-xl hover:shadow-primary/20" onclick="showPage('adminLogin')">Register as Student</button>
+<button class="glass-card text-on-surface h-16 px-12 rounded-xl text-lg font-bold hover:scale-105 transition-transform border-none" onclick="showPage('adminLogin')">Become an Organizer</button>
+</div>
+</div>
+</section>
+</div>
+
+<!-- ==================== EVENT DETAIL PAGE ==================== -->
+<div id="page-detail" class="page">
+<section class="px-6 md:px-12 py-12 max-w-screen-2xl mx-auto">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface mb-6 transition-colors" onclick="showPage('home')">
+<span class="material-symbols-outlined">arrow_back</span>
+                Back to Events
+            </button>
+<div id="detailContent">
+<!-- Event details will be rendered here -->
+</div>
+</section>
+</div>
+
+<!-- ==================== REGISTRATION CONFIRM PAGE ==================== -->
+<div id="page-confirm" class="page">
+<section class="px-6 md:px-12 py-12 max-w-screen-2xl mx-auto min-h-[60vh] flex items-center justify-center">
+<div class="glass-card p-12 rounded-2xl max-w-lg w-full text-center">
+<div class="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-4xl text-on-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="text-3xl font-bold text-on-surface mb-2">Registration Confirmed!</h2>
+<p class="text-on-surface-variant mb-6">Your spot has been reserved.</p>
+<div class="bg-primary-container/30 p-4 rounded-xl mb-6">
+<p class="text-sm text-on-surface-variant mb-1">Registration ID</p>
+<p class="text-2xl font-bold text-on-surface tracking-wider" id="confirmRegId"></p>
+</div>
+<div id="qrcode" class="bg-white p-6 rounded-xl mb-6 inline-block"></div>
+<div class="bg-secondary-container/30 p-4 rounded-xl mb-6">
+<p class="text-sm font-semibold text-on-secondary-container mb-1 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+                        Take a screenshot of this QR code
+                    </p>
+<p class="text-xs text-on-surface-variant">Show this at the event entrance for quick check-in</p>
+</div>
+<div class="glass-card p-6 rounded-xl text-left mb-6" id="confirmDetails"></div>
+<div class="flex flex-wrap gap-4 justify-center">
+<button class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all" onclick="addToCalendar()">
+                        Add to Calendar
+                    </button>
+<button class="glass-card text-on-surface px-8 py-3 rounded-xl font-bold hover:bg-white/80 transition-all" onclick="showPage('home')">
+                        Browse More Events
+                    </button>
+</div>
+</div>
+</section>
+</div>
+
+<!-- ==================== ORGANIZER AUTH PAGE ==================== -->
+<div id="page-adminLogin" class="page">
+<section class="px-6 md:px-12 py-12 min-h-[80vh] flex items-center justify-center">
+<div class="glass-card p-12 rounded-3xl w-full max-w-md">
+<!-- Login Form -->
+<div id="loginForm">
+<div class="text-center mb-8">
+<div class="text-3xl font-bold text-on-surface mb-2">Organizer Login</div>
+<p class="text-on-surface-variant">Welcome back! Sign in to manage your events</p>
+</div>
+<div class="bg-error/10 border border-error/20 p-4 rounded-xl mb-6 hidden" id="loginError">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined">error</span>
+<span id="loginErrorMsg"></span>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Username</label>
+<input type="text" class="form-input" id="loginUser" placeholder="Enter your username"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Password</label>
+<input type="password" class="form-input" id="loginPass" placeholder="Enter your password" onkeypress="if(event.key==='Enter')doLogin()"/>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all active:scale-95" onclick="doLogin()">
+                        Sign In
+                    </button>
+</div>
+<div class="mt-8 pt-6 border-t border-surface-variant text-center">
+<p class="text-on-surface-variant mb-2">Don't have an account?</p>
+<button class="text-primary font-bold hover:underline" onclick="showSignup()">Sign up as Organizer</button>
+</div>
+</div>
+
+<!-- Signup Form -->
+<div id="signupForm" class="hidden">
+<div class="text-center mb-8">
+<div class="text-3xl font-bold text-on-surface mb-2">Organizer Sign Up</div>
+<p class="text-on-surface-variant">Create an account to start managing events</p>
+</div>
+<div class="bg-error/10 border border-error/20 p-4 rounded-xl mb-6 hidden" id="signupError">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined">error</span>
+<span id="signupErrorMsg"></span>
+</div>
+</div>
+<div class="bg-success/10 border border-success/20 p-4 rounded-xl mb-6 hidden" id="signupSuccess">
+<div class="flex items-center gap-2 text-primary font-semibold">
+<span class="material-symbols-outlined">check_circle</span>
+<span>Account created! Please login.</span>
+</div>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Username *</label>
+<input type="text" class="form-input" id="signupUser" placeholder="Choose a username"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Password *</label>
+<input type="password" class="form-input" id="signupPass" placeholder="Choose a password"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Confirm Password *</label>
+<input type="password" class="form-input" id="signupPassConfirm" placeholder="Confirm your password" onkeypress="if(event.key==='Enter')doSignup()"/>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all active:scale-95" onclick="doSignup()">
+                        Create Account
+                    </button>
+</div>
+<div class="mt-8 pt-6 border-t border-surface-variant text-center">
+<p class="text-on-surface-variant mb-2">Already have an account?</p>
+<button class="text-primary font-bold hover:underline" onclick="showLogin()">Sign In</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+<!-- ==================== ADMIN DASHBOARD ==================== -->
+<div id="page-adminDash" class="page">
+<section class="px-6 md:px-12 py-12 max-w-screen-2xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+<!-- Sidebar -->
+<div class="lg:col-span-1">
+<div class="glass-card p-6 rounded-2xl sticky top-24">
+<div class="text-xl font-bold text-on-surface mb-6">Dashboard</div>
+<nav class="space-y-2">
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold bg-primary text-white" id="sbl-overview" onclick="adminSection('overview')">
+<span class="material-symbols-outlined">dashboard</span>
+                            Overview
+                        </button>
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-on-surface hover:bg-white/50 transition-colors" id="sbl-events" onclick="adminSection('events')">
+<span class="material-symbols-outlined">event</span>
+                            My Events
+                        </button>
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-on-surface hover:bg-white/50 transition-colors" id="sbl-create" onclick="adminSection('create')">
+<span class="material-symbols-outlined">add_circle</span>
+                            Create Event
+                        </button>
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-on-surface hover:bg-white/50 transition-colors" id="sbl-regs" onclick="adminSection('regs')">
+<span class="material-symbols-outlined">people</span>
+                            Registrations
+                        </button>
+<div class="pt-4 border-t border-surface-variant">
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left font-semibold text-error hover:bg-error/10 transition-colors" onclick="adminLogout()">
+<span class="material-symbols-outlined">logout</span>
+                                Logout
+                            </button>
+</div>
+</nav>
+</div>
+</div>
+<!-- Main Content -->
+<div class="lg:col-span-3" id="adminMain"></div>
+</div>
+</section>
+</div>
+</main>
+
+<!-- Create/Edit Event Modal -->
+<div class="modal-overlay fixed inset-0 z-50 bg-inverse-surface/50 backdrop-blur-sm items-center justify-center p-6" id="eventModal">
+<div class="glass-card w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-2xl font-bold text-on-surface" id="modalTitle">Create New Event</h3>
+<button class="p-2 hover:bg-white/50 rounded-full transition-colors" onclick="closeModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="space-y-6">
+<div class="border-b border-surface-variant pb-4">
+<h4 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-4">Basic Info</h4>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Event Name *</label>
+<input type="text" class="form-input" id="evName" placeholder="e.g. Tech Symposium 2026"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Description *</label>
+<textarea class="form-input form-textarea" id="evDesc" placeholder="Describe your event..."></textarea>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Category *</label>
+<input type="text" class="form-input" id="evCategory" placeholder="e.g. Workshop"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Event Type</label>
+<select class="form-input" id="evType">
+<option value="free">Free Entry</option>
+</select>
+</div>
+</div>
+</div>
+</div>
+<div class="border-b border-surface-variant pb-4">
+<h4 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-4">Date &amp; Location</h4>
+<div class="space-y-4">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Event Date &amp; Time *</label>
+<input type="datetime-local" class="form-input" id="evDate"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Registration Deadline *</label>
+<input type="datetime-local" class="form-input" id="evDeadline"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Location Name *</label>
+<input type="text" class="form-input" id="evLocation" placeholder="e.g. Anna University Main Auditorium"/>
+<p class="text-xs text-on-surface-variant mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                This will be linked to Google Maps
+                            </p>
+</div>
+</div>
+</div>
+<div class="border-b border-surface-variant pb-4">
+<h4 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-4">Event Details</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Organizer Contact Email</label>
+<input type="email" class="form-input" id="evContactEmail" placeholder="organizer@au.edu"/>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Organizer Phone</label>
+<input type="tel" class="form-input" id="evContactPhone" placeholder="9876543210"/>
+</div>
+</div>
+</div>
+<div>
+<h4 class="text-sm font-bold text-on-surface-variant uppercase tracking-wider mb-4">Event Banner</h4>
+<div class="border-2 border-dashed border-surface-variant rounded-xl p-8 text-center hover:border-primary transition-colors">
+<input type="file" id="evBannerFile" accept="image/*" class="hidden" onchange="handleBannerUpload(this)"/>
+<label for="evBannerFile" class="cursor-pointer">
+<div class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">cloud_upload</div>
+<p class="text-sm text-on-surface-variant">Click or drag to upload image (Max 2MB)</p>
+</label>
+<div class="text-sm text-primary font-semibold mt-2" id="bannerPreview"></div>
+<button type="button" class="text-error text-sm font-semibold mt-2 hidden" id="removeBannerBtn" onclick="clearBanner()">Remove Image</button>
+</div>
+</div>
+</div>
+<div class="flex gap-4 mt-8">
+<button class="flex-1 bg-primary text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all active:scale-95" onclick="saveEvent()">
+                    Save Event
+                </button>
+<button class="glass-card px-8 py-4 rounded-xl font-bold text-on-surface hover:bg-white/80 transition-all" onclick="closeModal()">
+                    Cancel
+                </button>
+</div>
+</div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal-overlay fixed inset-0 z-50 bg-inverse-surface/50 backdrop-blur-sm items-center justify-center p-6" id="shareModal">
+<div class="glass-card w-full max-w-md rounded-2xl p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-xl font-bold text-on-surface">Share Event</h3>
+<button class="p-2 hover:bg-white/50 rounded-full transition-colors" onclick="closeShareModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="text-sm text-on-surface-variant mb-4">Share this unique link with students you want to invite to your event.</p>
+<div class="bg-surface-container p-4 rounded-xl mb-6">
+<label class="block text-xs font-semibold text-on-surface-variant uppercase mb-2">Event Registration Link</label>
+<div class="flex gap-2">
+<input type="text" class="form-input flex-1 text-sm" id="shareLinkInput" readonly/>
+<button class="bg-primary text-white px-4 py-2 rounded-lg font-semibold text-sm" onclick="copyShareLink()">
+                        Copy
+                    </button>
+</div>
+</div>
+<button class="w-full glass-card py-3 rounded-xl font-bold text-on-surface hover:bg-white/80 transition-all" onclick="closeShareModal()">
+                Close
+            </button>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="w-full border-t border-surface-variant bg-white/40 backdrop-blur-md text-sm mt-auto">
+<div class="py-12 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-screen-2xl mx-auto">
+<div class="space-y-6">
+<div class="text-lg font-bold text-on-surface">AU Events</div>
+<p class="text-on-surface/60 max-w-xs leading-relaxed">The official event orchestration platform for Andhra University, connecting vibrant campus life with digital efficiency.</p>
+<div class="text-on-surface/40">© 2026 AU Events. All rights reserved.</div>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-4">
+<h4 class="font-bold text-on-surface uppercase tracking-widest text-xs">Resources</h4>
+<ul class="space-y-3">
+<li><a class="text-on-surface/60 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Privacy Policy</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h4 class="font-bold text-on-surface uppercase tracking-widest text-xs">Support</h4>
+<ul class="space-y-3">
+<li><a class="text-on-surface/60 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Contact Support</a></li>
+<li><a class="text-on-surface/60 hover:text-primary transition-colors hover:underline underline-offset-4" href="#">Campus Map</a></li>
+</ul>
+</div>
+</div>
+</div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+// Hero floating cards animation trigger
+function triggerHeroCards() {
+    setTimeout(function() {
+        document.getElementById('heroCard1')?.classList.add('animated');
+    }, 200);
+    setTimeout(function() {
+        document.getElementById('heroCard2')?.classList.add('animated');
+    }, 400);
+    setTimeout(function() {
+        document.getElementById('heroCard3')?.classList.add('animated');
+    }, 600);
+}
+
+// Trigger on load
+document.addEventListener('DOMContentLoaded', triggerHeroCards);
+
+// Re-trigger when returning to home page
+const originalShowPage = window.showPage;
+if (originalShowPage) {
+    window.showPage = function(name) {
+        originalShowPage(name);
+        if (name === 'home') {
+            // Reset and replay animations
+            document.querySelectorAll('.hero-float-card').forEach(function(card) {
+                card.classList.remove('animated');
+            });
+            setTimeout(triggerHeroCards, 100);
+        }
+    };
+}
+</script>
+<style>
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// Add reveal class to sections and observe them
+document.querySelectorAll('section').forEach(section => {
+  section.classList.add('reveal-section');
+  revealObserver.observe(section);
+});
+</script>
+<style>
+/* Scroll reveal animations */
+.reveal-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children within revealed sections */
+.reveal-section.revealed > * {
+  animation: fadeInUp 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.reveal-section.revealed > *:nth-child(1) { animation-delay: 0.1s; }
+.reveal-section.revealed > *:nth-child(2) { animation-delay: 0.15s; }
+.reveal-section.revealed > *:nth-child(3) { animation-delay: 0.2s; }
+.reveal-section.revealed > *:nth-child(4) { animation-delay: 0.25s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EventFlow Diagnostic</title>
+<style>
+body { font-family: Arial; background: #1a1a1a; color: #fff; padding: 40px; }
+.box { background: #0d0d0d; border: 1px solid #333; padding: 20px; border-radius: 8px; margin: 20px 0; }
+.success { color: #4ade80; }
+.error { color: #f87171; }
+.info { color: #888; }
+button { padding: 10px 20px; background: #d4a574; color: #000; border: none; border-radius: 6px; cursor: pointer; margin: 5px; }
+pre { background: #0d0d0d; padding: 10px; border-radius: 4px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h1 style="color: #d4a574;">EventFlow Diagnostic Tool</h1>
+
+<div class="box">
+  <h3>Test localStorage:</h3>
+  <button onclick="testStorage()">Test Storage</button>
+  <button onclick="clearStorage()">Clear All Data</button>
+  <button onclick="createTestEvent()">Create Test Event</button>
+  <button onclick="checkEvents()">Check Events</button>
+  <div id="result"></div>
+</div>
+
+<div class="box">
+  <h3>Open Main App:</h3>
+  <button onclick="window.open('../index.html', '_blank')">Open EventFlow</button>
+</div>
+
+<script>
+function log(msg, type='info') {
+  const el = document.getElementById('result');
+  el.innerHTML += '<p class="' + type + '">' + msg + '</p>';
+}
+
+function testStorage() {
+  try {
+    localStorage.setItem('test', 'value');
+    const val = localStorage.getItem('test');
+    localStorage.removeItem('test');
+    if (val === 'value') {
+      log('localStorage is working!', 'success');
+    } else {
+      log('localStorage test failed', 'error');
+    }
+  } catch(e) {
+    log('localStorage error: ' + e.message, 'error');
+  }
+}
+
+function clearStorage() {
+  localStorage.removeItem('ef_events');
+  localStorage.removeItem('ef_regs');
+  localStorage.removeItem('ef_organizer_id');
+  log('All EventFlow data cleared', 'success');
+}
+
+function createTestEvent() {
+  const orgId = 'ORG' + Date.now().toString(36).toUpperCase();
+  const eventId = 'TEST' + Date.now().toString(36).toUpperCase();
+  
+  const futureDate = new Date();
+  futureDate.setDate(futureDate.getDate() + 14);
+  const deadline = new Date();
+  deadline.setDate(deadline.getDate() + 12);
+  
+  const event = {
+    id: eventId,
+    name: 'Test Event ' + new Date().toLocaleTimeString(),
+    description: 'This is a test event created by diagnostic tool.',
+    date: futureDate.toISOString().slice(0, 16),
+    deadline: deadline.toISOString().slice(0, 16),
+    location: 'Test Location',
+    category: 'Test',
+    contactEmail: 'test@test.com',
+    contactPhone: '9876543210',
+    banner: null,
+    organizerId: orgId,
+    createdAt: new Date().toISOString()
+  };
+  
+  const events = JSON.parse(localStorage.getItem('ef_events') || '[]');
+  events.push(event);
+  localStorage.setItem('ef_events', JSON.stringify(events));
+  localStorage.setItem('ef_organizer_id', orgId);
+  
+  log('Test event created: ' + eventId, 'success');
+  log('Events count: ' + events.length, 'info');
+}
+
+function checkEvents() {
+  const events = JSON.parse(localStorage.getItem('ef_events') || '[]');
+  const regs = JSON.parse(localStorage.getItem('ef_regs') || '[]');
+  const orgId = localStorage.getItem('ef_organizer_id');
+  
+  log('<strong>Stored Data:</strong>', 'info');
+  log('Events: ' + events.length, 'info');
+  log('Registrations: ' + regs.length, 'info');
+  log('Organizer ID: ' + (orgId || 'none'), 'info');
+  
+  if (events.length > 0) {
+    log('<br><strong>Event List:</strong>', 'info');
+    events.forEach(e => {
+      log('- ' + e.name + ' (ID: ' + e.id + ')', 'info');
+    });
+  }
+}
+
+// Auto-run checks
+testStorage();
+checkEvents();
+</script>
+</body>
+</html>
