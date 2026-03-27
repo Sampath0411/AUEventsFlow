@@ -7,6 +7,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="css/styles.css" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script id="tailwind-config">
       tailwind.config = {
@@ -364,43 +365,51 @@
 </div>
 </div>
 
-<!-- Floating Cards -->
-<div class="lg:col-span-5 relative h-[600px] hidden lg:block">
-<!-- Main Event Card -->
-<div class="hero-float-card absolute top-[10%] left-[10%] w-72 bg-[#1a1a2e] rounded-3xl p-5 shadow-2xl border border-white/10" id="heroCard1">
-<div class="flex items-center justify-between mb-4">
-<span class="px-3 py-1 bg-[#7ee8fa] text-[#1a1a2e] text-xs font-bold rounded-full">OPEN NOW</span>
-<span class="material-symbols-outlined text-white/60">more_horiz</span>
+<!-- 3D Card -->
+<div class="lg:col-span-5 relative h-[600px] hidden lg:flex items-center justify-center">
+<div class="parent">
+<div class="card">
+<div class="logo">
+<span class="circle circle1"></span>
+<span class="circle circle2"></span>
+<span class="circle circle3"></span>
+<span class="circle circle4"></span>
+<span class="circle circle5">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2" fill="none"/>
+</svg>
+</span>
 </div>
-<div class="text-white/60 text-xs mb-1">Upcoming</div>
-<div class="text-white font-bold text-lg">Tech Fest</div>
-<div class="text-white font-bold text-lg mb-4">Main Stage</div>
-<div class="aspect-video bg-gradient-to-br from-[#2a2a4e] to-[#1a1a2e] rounded-xl flex items-center justify-center overflow-hidden">
-<span class="material-symbols-outlined text-6xl text-white/20">desktop_windows</span>
+<div class="glass"></div>
+<div class="content">
+<span class="title">AU Events</span>
+<span class="text">Create, manage & register for campus events with QR code tickets</span>
+</div>
+<div class="bottom">
+<div class="social-buttons-container">
+<button class="social-button social-button1" onclick="showPage('adminLogin')" title="Admin Login">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="svg">
+<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+</svg>
+</button>
+<button class="social-button social-button2" onclick="document.getElementById('eventsSection').scrollIntoView({behavior: 'smooth'})" title="View Events">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="svg">
+<path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5z"/>
+</svg>
+</button>
+<button class="social-button social-button3" onclick="document.getElementById('howToRegisterSection').scrollIntoView({behavior: 'smooth'})" title="How to Register">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="svg">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+</svg>
+</button>
+</div>
+<div class="view-more">
+<button class="view-more-button" onclick="document.getElementById('eventsSection').scrollIntoView({behavior: 'smooth'})">Explore Events</button>
+<svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
 </div>
 </div>
-
-<!-- QR Code Card -->
-<div class="hero-float-card absolute top-[5%] right-[5%] w-32 h-32 bg-[#7ee8fa] rounded-3xl shadow-2xl flex items-center justify-center" id="heroCard2">
-<span class="material-symbols-outlined text-5xl text-[#1a1a2e]">qr_code_2</span>
-</div>
-
-<!-- Stats Card -->
-<div class="hero-float-card absolute bottom-[20%] right-[15%] w-48 bg-white/90 backdrop-blur-xl rounded-2xl p-4 shadow-xl border border-white/50" id="heroCard3">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">groups</span>
-</div>
-<div>
-<div class="text-2xl font-bold text-on-surface">2.5k+</div>
-<div class="text-xs text-on-surface-variant">Students</div>
 </div>
 </div>
-</div>
-
-<!-- Decorative Elements -->
-<div class="absolute top-[40%] left-[5%] w-16 h-16 bg-primary/20 rounded-full blur-xl"></div>
-<div class="absolute bottom-[10%] left-[30%] w-20 h-20 bg-secondary/20 rounded-full blur-xl"></div>
 </div>
 </div>
 </section>
@@ -621,27 +630,105 @@
 </section>
 </div>
 
+<!-- ==================== REGISTRATION PAGE ==================== -->
+<div id="page-register" class="page">
+<section class="px-6 md:px-12 py-12 max-w-screen-2xl mx-auto min-h-[80vh] flex items-center justify-center">
+<div class="glass-card p-8 md:p-12 rounded-3xl max-w-2xl w-full">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface mb-6 transition-colors" onclick="showPage('home')">
+<span class="material-symbols-outlined">arrow_back</span>
+                Back to Events
+            </button>
+<div class="text-center mb-8">
+<div class="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined text-3xl text-on-primary-container">event_available</span>
+</div>
+<h2 class="text-3xl font-bold text-on-surface mb-2">Register for Event</h2>
+<p class="text-on-surface-variant" id="regEventName">Fill in your details to register</p>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Full Name *</label>
+<input type="text" class="form-input w-full" id="regName" placeholder="Enter your full name">
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Registration Number (12 digits) *</label>
+<input type="text" class="form-input w-full" id="regRegNo" placeholder="e.g. 123456789012" maxlength="12" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Section *</label>
+<input type="text" class="form-input w-full" id="regSection" placeholder="e.g. A2">
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Department *</label>
+<input type="text" class="form-input w-full" id="regDept" placeholder="e.g. CSE">
+</div>
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Email *</label>
+<input type="email" class="form-input w-full" id="regEmail" placeholder="student@au.edu">
+</div>
+<div>
+<label class="block text-sm font-semibold text-on-surface mb-2">Phone Number (10 digits) *</label>
+<input type="tel" class="form-input w-full" id="regPhone" placeholder="9876543210" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+</div>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 mt-8" onclick="submitRegistration()">
+<span class="material-symbols-outlined">check_circle</span>
+                    Confirm Registration
+                </button>
+</div>
+</section>
+</div>
+
 <!-- ==================== REGISTRATION CONFIRM PAGE ==================== -->
 <div id="page-confirm" class="page">
 <section class="px-6 md:px-12 py-12 max-w-screen-2xl mx-auto min-h-[60vh] flex items-center justify-center">
-<div class="glass-card p-12 rounded-2xl max-w-lg w-full text-center">
+<div class="glass-card p-8 md:p-12 rounded-2xl max-w-lg w-full text-center">
 <div class="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mx-auto mb-6">
 <span class="material-symbols-outlined text-4xl text-on-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
 </div>
 <h2 class="text-3xl font-bold text-on-surface mb-2">Registration Confirmed!</h2>
 <p class="text-on-surface-variant mb-6">Your spot has been reserved.</p>
-<div class="bg-primary-container/30 p-4 rounded-xl mb-6">
-<p class="text-sm text-on-surface-variant mb-1">Registration ID</p>
-<p class="text-2xl font-bold text-on-surface tracking-wider" id="confirmRegId"></p>
+
+<!-- Registration Card (for download) -->
+<div id="regCard" class="bg-white p-6 rounded-xl mb-6 border-2 border-primary/20">
+<div class="flex items-center gap-3 mb-4 border-b border-gray-200 pb-4">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">school</span>
 </div>
-<div id="qrcode" class="bg-white p-6 rounded-xl mb-6 inline-block"></div>
+<div class="text-left">
+<p class="text-xs text-gray-500">AU Events Portal</p>
+<p class="font-bold text-on-surface">Registration Pass</p>
+</div>
+</div>
+<div class="text-left space-y-2 mb-4">
+<p class="text-sm text-gray-500">Registration ID</p>
+<p class="text-2xl font-black text-primary tracking-wider" id="confirmRegId"></p>
+</div>
+<div id="qrcode" class="flex justify-center mb-4"></div>
+<div class="text-left text-xs text-gray-400 border-t border-gray-200 pt-4" id="regCardDetails"></div>
+</div>
+
+<div class="flex flex-wrap gap-3 justify-center mb-6">
+<button class="bg-primary text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center gap-2" onclick="downloadQRCode()">
+<span class="material-symbols-outlined">download</span>
+                    Download QR
+                </button>
+<button class="bg-secondary text-on-surface px-6 py-3 rounded-xl font-bold hover:shadow-lg transition-all flex items-center gap-2" onclick="downloadRegCard()">
+<span class="material-symbols-outlined">badge</span>
+                    Download Pass
+                </button>
+</div>
+
 <div class="bg-secondary-container/30 p-4 rounded-xl mb-6">
 <p class="text-sm font-semibold text-on-secondary-container mb-1 flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-sm">photo_camera</span>
-                        Take a screenshot of this QR code
+                        Save your QR code or Registration Pass
                     </p>
 <p class="text-xs text-on-surface-variant">Show this at the event entrance for quick check-in</p>
 </div>
+
 <div class="glass-card p-6 rounded-xl text-left mb-6" id="confirmDetails"></div>
 <div class="flex flex-wrap gap-4 justify-center">
 <button class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:shadow-lg transition-all" onclick="addToCalendar()">
@@ -728,6 +815,7 @@
 <div class="mt-8 pt-6 border-t border-surface-variant text-center">
 <p class="text-on-surface-variant mb-2">Already have an account?</p>
 <button class="text-primary font-bold hover:underline" onclick="showLogin()">Sign In</button>
+</div>
 </div>
 </div>
 </div>
@@ -895,8 +983,8 @@
 </div>
 </div>
 
-<!-- Footer -->
-<footer class="w-full border-t border-surface-variant bg-white/40 backdrop-blur-md text-sm mt-auto">
+<!-- Footer - Only visible on home page -->
+<footer id="mainFooter" class="w-full border-t border-surface-variant bg-white/40 backdrop-blur-md text-sm mt-auto">
 <div class="py-12 px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-screen-2xl mx-auto">
 <div class="space-y-6">
 <div class="text-lg font-bold text-on-surface">AU Events</div>

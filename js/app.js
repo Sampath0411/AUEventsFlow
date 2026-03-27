@@ -80,6 +80,12 @@ function showPage(name) {
   const page = document.getElementById('page-' + name);
   if (page) page.classList.add('active');
 
+  // Footer visibility - only show on home page
+  const footer = document.getElementById('mainFooter');
+  if (footer) {
+    footer.style.display = (name === 'home') ? 'block' : 'none';
+  }
+
   if (name === 'home') {
     window.location.hash = '';
     renderEvents();
@@ -499,25 +505,7 @@ function showDetail(id, fromUrl) {
     '<h3 class="text-2xl font-bold text-on-surface mb-2">Student Registration</h3>' +
     '<p class="text-3xl font-black text-primary mb-4">FREE</p>' +
     '<p class="text-sm text-slate-500 mb-6 flex items-center gap-2"><span class="material-symbols-outlined">info</span>Open to all students</p>' +
-    (deadlinePassed ? '<button class="w-full bg-slate-200 text-slate-400 py-4 rounded-xl font-bold cursor-not-allowed" disabled>Registration Closed</button>' : '<button class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all active:scale-95" onclick="showRegForm()">Register Now</button>') +
-    '<div id="regFormContainer" style="display:none" class="mt-6 space-y-4">' +
-    '<div class="border-t border-surface-variant pt-6">' +
-    '<h4 class="text-lg font-bold text-on-surface mb-4">Student Details</h4>' +
-    '<div class="space-y-4">' +
-    '<div><label class="block text-sm font-semibold text-on-surface mb-2">Full Name *</label><input type="text" class="form-input" id="regName" placeholder="Enter your full name"></div>' +
-    '<div><label class="block text-sm font-semibold text-on-surface mb-2">Registration Number (12 digits) *</label><input type="text" class="form-input" id="regRegNo" placeholder="e.g. 123456789012" maxlength="12" oninput="this.value=this.value.replace(/[^0-9]/g,\'\')"></div>' +
-    '<div class="grid grid-cols-2 gap-4">' +
-    '<div><label class="block text-sm font-semibold text-on-surface mb-2">Section *</label><input type="text" class="form-input" id="regSection" placeholder="e.g. A2"></div>' +
-    '<div><label class="block text-sm font-semibold text-on-surface mb-2">Department *</label><input type="text" class="form-input" id="regDept" placeholder="e.g. CSE"></div>' +
-    '</div>' +
-    '<div><label class="block text-sm font-semibold text-on-surface mb-2">Email *</label><input type="email" class="form-input" id="regEmail" placeholder="student@au.edu"></div>' +
-    '<div><label class="block text-sm font-semibold text-on-surface mb-2">Phone Number (10 digits) *</label><input type="tel" class="form-input" id="regPhone" placeholder="9876543210" maxlength="10" oninput="this.value=this.value.replace(/[^0-9]/g,\'\')"></div>' +
-    '</div>' +
-    '</div>' +
-    '<button class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2" onclick="submitReg(\'' + ev.id + '\')">' +
-    '<span class="material-symbols-outlined">check_circle</span>Confirm Registration</button>' +
-    '</div>' +
-    '</div>' +
+    (deadlinePassed ? '<button class="w-full bg-slate-200 text-slate-400 py-4 rounded-xl font-bold cursor-not-allowed" disabled>Registration Closed</button>' : '<button class="w-full bg-primary text-white py-4 rounded-xl font-bold hover:shadow-lg transition-all active:scale-95" onclick="goToRegister(\'' + ev.id + '\')">Register Now</button>') +
     '</div>' +
     '</div>' +
     '</div>';
@@ -527,12 +515,23 @@ function showDetail(id, fromUrl) {
   }
 }
 
-function showRegForm() {
-  const c = document.getElementById('regFormContainer');
-  c.style.display = c.style.display === 'none' ? 'block' : 'none';
+let currentEventId = null;
+
+function goToRegister(eventId) {
+  currentEventId = eventId;
+  const ev = getEvents().find(function(e) { return e.id === eventId; });
+  document.getElementById('regEventName').textContent = ev ? ev.name : 'Fill in your details to register';
+  // Clear form fields
+  document.getElementById('regName').value = '';
+  document.getElementById('regRegNo').value = '';
+  document.getElementById('regSection').value = '';
+  document.getElementById('regDept').value = '';
+  document.getElementById('regEmail').value = '';
+  document.getElementById('regPhone').value = '';
+  showPage('register');
 }
 
-function submitReg(eventId) {
+function submitRegistration() {
   const name = document.getElementById('regName').value.trim();
   const regNo = document.getElementById('regRegNo').value.trim();
   const section = document.getElementById('regSection').value.trim();
@@ -557,12 +556,17 @@ function submitReg(eventId) {
     return;
   }
 
-  const ev = getEvents().find(function(e) { return e.id === eventId; });
+  if (!currentEventId) {
+    toast('No event selected', 'error');
+    return;
+  }
+
+  const ev = getEvents().find(function(e) { return e.id === currentEventId; });
   const regId = genId();
 
   const reg = {
     id: regId,
-    eventId: eventId,
+    eventId: currentEventId,
     eventName: ev.name,
     name: name,
     regNo: regNo,
@@ -581,6 +585,10 @@ function submitReg(eventId) {
   currentConfirmData = { reg: reg, ev: ev };
 
   document.getElementById('confirmRegId').textContent = regId;
+  document.getElementById('regCardDetails').innerHTML = '' +
+    '<div class="flex justify-between"><span>Event:</span><span class="font-semibold">' + ev.name + '</span></div>' +
+    '<div class="flex justify-between"><span>Name:</span><span class="font-semibold">' + name + '</span></div>' +
+    '<div class="flex justify-between"><span>Date:</span><span class="font-semibold">' + formatDate(ev.date) + '</span></div>';
   document.getElementById('confirmDetails').innerHTML = '' +
     '<div class="space-y-3 text-sm">' +
     '<div class="flex justify-between"><span class="text-slate-500">Event</span><span class="font-semibold text-on-surface">' + ev.name + '</span></div>' +
@@ -599,6 +607,219 @@ function submitReg(eventId) {
 
   showPage('confirm');
   toast('Registration confirmed!', 'success');
+}
+
+function downloadQRCode() {
+  const qrCanvas = document.querySelector('#qrcode canvas');
+  if (!qrCanvas) {
+    toast('QR code not found', 'error');
+    return;
+  }
+  const link = document.createElement('a');
+  link.download = 'AU-Events-QR-' + document.getElementById('confirmRegId').textContent + '.png';
+  link.href = qrCanvas.toDataURL('image/png');
+  link.click();
+  toast('QR code downloaded!', 'success');
+}
+
+function downloadRegCard() {
+  const qrCanvas = document.querySelector('#qrcode canvas');
+  if (!qrCanvas) {
+    toast('QR code not found', 'error');
+    return;
+  }
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const regId = document.getElementById('confirmRegId').textContent;
+
+  // Higher resolution for crisp output - taller to fit all details
+  canvas.width = 800;
+  canvas.height = 1300;
+
+  // Clear canvas with white background
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Top gradient banner
+  const gradient = ctx.createLinearGradient(0, 0, canvas.width, 200);
+  gradient.addColorStop(0, '#476500');
+  gradient.addColorStop(1, '#7ee8fa');
+  ctx.fillStyle = gradient;
+  ctx.beginPath();
+  ctx.roundRect(40, 40, canvas.width - 80, 160, 20);
+  ctx.fill();
+
+  // Header text
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 48px "Segoe UI", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('AU Events', canvas.width / 2, 95);
+  ctx.font = '300 26px "Segoe UI", Arial, sans-serif';
+  ctx.fillText('Registration Pass', canvas.width / 2, 135);
+
+  // Main card background
+  ctx.fillStyle = '#f8fafc';
+  ctx.beginPath();
+  ctx.roundRect(40, 220, canvas.width - 80, 800, 20);
+  ctx.fill();
+
+  // Card border
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(40, 220, canvas.width - 80, 800, 20);
+  ctx.stroke();
+
+  // Registration ID section
+  ctx.fillStyle = '#64748b';
+  ctx.font = '500 18px "Segoe UI", Arial, sans-serif';
+  ctx.fillText('REGISTRATION ID', canvas.width / 2, 280);
+  ctx.fillStyle = '#476500';
+  ctx.font = 'bold 52px "Segoe UI", Arial, sans-serif';
+  ctx.fillText(regId, canvas.width / 2, 335);
+
+  // QR code background
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.roundRect(250, 365, 300, 300, 16);
+  ctx.fill();
+  ctx.strokeStyle = '#e2e8f0';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(250, 365, 300, 300, 16);
+  ctx.stroke();
+
+  // Draw QR code centered
+  ctx.drawImage(qrCanvas, 275, 390, 250, 250);
+
+  // All registration details section
+  const detailsY = 720;
+  const leftCol = 80;
+  const rightCol = 420;
+  let currentY = detailsY;
+
+  if (currentConfirmData) {
+    // Event Info Header
+    ctx.fillStyle = '#476500';
+    ctx.font = 'bold 20px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('EVENT INFORMATION', leftCol, currentY);
+    currentY += 35;
+
+    // Event Name
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Event Name', leftCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 22px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.ev.name, leftCol, currentY + 28);
+    currentY += 65;
+
+    // Date
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Date', leftCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(formatDate(currentConfirmData.ev.date), leftCol, currentY + 26);
+
+    // Location (right column)
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Location', rightCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.ev.location, rightCol, currentY + 26);
+    currentY += 70;
+
+    // Horizontal separator
+    ctx.strokeStyle = '#e2e8f0';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(60, currentY - 10);
+    ctx.lineTo(canvas.width - 60, currentY - 10);
+    ctx.stroke();
+
+    // Attendee Info Header
+    ctx.fillStyle = '#476500';
+    ctx.font = 'bold 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('ATTENDEE DETAILS', leftCol, currentY + 20);
+    currentY += 55;
+
+    // Full Name
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Full Name', leftCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.reg.name, leftCol, currentY + 26);
+    currentY += 55;
+
+    // Registration Number
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Registration Number', leftCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.reg.regNo, leftCol, currentY + 26);
+
+    // Section (right column)
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Section', rightCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.reg.section, rightCol, currentY + 26);
+    currentY += 55;
+
+    // Department
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Department', leftCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.reg.dept, leftCol, currentY + 26);
+
+    // Phone (right column)
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Phone', rightCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.reg.phone, rightCol, currentY + 26);
+    currentY += 55;
+
+    // Email
+    ctx.fillStyle = '#64748b';
+    ctx.font = '500 16px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('Email', leftCol, currentY);
+    ctx.fillStyle = '#1e293b';
+    ctx.font = '600 20px "Segoe UI", Arial, sans-serif';
+    ctx.fillText(currentConfirmData.reg.email, leftCol, currentY + 26);
+  }
+
+  // Footer note background
+  ctx.fillStyle = '#f1f5f9';
+  ctx.beginPath();
+  ctx.roundRect(40, 1050, canvas.width - 80, 80, 12);
+  ctx.fill();
+
+  // Footer note
+  ctx.fillStyle = '#64748b';
+  ctx.font = '500 18px "Segoe UI", Arial, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('Present this pass at the event entrance for check-in', canvas.width / 2, 1090);
+  ctx.font = '400 16px "Segoe UI", Arial, sans-serif';
+  ctx.fillStyle = '#94a3b8';
+  ctx.fillText('Generated by AU Events Portal', canvas.width / 2, 1115);
+
+  // Download
+  const link = document.createElement('a');
+  link.download = 'AU-Events-Pass-' + regId + '.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  toast('Registration pass downloaded!', 'success');
 }
 
 function addToCalendar() {
