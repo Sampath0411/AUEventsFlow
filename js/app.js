@@ -425,9 +425,13 @@ function renderEventsContent() {
     const badgeColor = today ? 'bg-secondary text-white' : 'bg-primary text-white';
     const badgeText = today ? 'TODAY' : 'FREE';
 
+    const bannerHtml = ev.banner && ev.banner.startsWith('data:image/')
+      ? '<img src="' + ev.banner + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" alt="' + ev.name + '" decoding="async">'
+      : '<div class="w-full h-full flex items-center justify-center bg-surface-variant"><span class="material-symbols-outlined text-6xl text-slate-400">image</span></div>';
+
     html += '<div class="event-card glass-card rounded-2xl overflow-hidden group cursor-pointer" style="animation-delay: ' + (events.indexOf(ev) * 0.05) + 's" onclick="showDetail(\'' + ev.id + '\')">' +
       '<div class="relative h-48 overflow-hidden bg-slate-200">' +
-      (ev.banner ? '<img src="' + ev.banner + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.style.display=\'none\'" alt="" decoding="async">' : '<div class="w-full h-full flex items-center justify-center bg-surface-variant"><span class="material-symbols-outlined text-6xl text-slate-400">image</span></div>') +
+      bannerHtml +
       '<span class="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold ' + badgeColor + '">' + badgeText + '</span>' +
       '</div>' +
       '<div class="p-6">' +
@@ -458,10 +462,14 @@ function showDetail(id, fromUrl) {
   const mapsLink = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(ev.location);
 
   const detailContent = document.getElementById('detailContent');
+  const detailBannerHtml = ev.banner && ev.banner.startsWith('data:image/')
+    ? '<img src="' + ev.banner + '" class="w-full h-full object-cover" alt="' + ev.name + '">'
+    : '<div class="w-full h-full flex items-center justify-center bg-surface-variant"><span class="material-symbols-outlined text-8xl text-slate-400">image</span></div>';
+
   detailContent.innerHTML = '' +
     '<div class="glass-card rounded-2xl overflow-hidden mb-8">' +
     '<div class="relative h-80 overflow-hidden">' +
-    (ev.banner ? '<img src="' + ev.banner + '" class="w-full h-full object-cover" onerror="this.style.display=\'none\'" alt="">' : '<div class="w-full h-full flex items-center justify-center bg-surface-variant"><span class="material-symbols-outlined text-8xl text-slate-400">image</span></div>') +
+    detailBannerHtml +
     '<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>' +
     '<div class="absolute bottom-0 left-0 right-0 p-8">' +
     '<div class="text-sm font-bold text-primary-container uppercase tracking-wider mb-2">' + ev.category + '</div>' +
